@@ -1,3 +1,4 @@
+mod auth;
 mod config;
 mod db;
 mod dtos;
@@ -56,6 +57,7 @@ impl Modify for SecurityAddon {
 
 #[actix_web::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    dotenv().ok();
     unsafe {
         openssl_probe::try_init_openssl_env_vars();
     }
@@ -64,7 +66,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             std::env::set_var("RUST_LOG", "actix_web=info");
         }
     }
-    dotenv().ok();
     env_logger::init();
 
     let config = Config::init();

@@ -9,7 +9,7 @@ pub struct Config {
 impl Config {
     pub fn init() -> Config {
         let database_url = std::env::var("DATABASE_URL").expect("DATABASE_URL NOT SET IN THE .ENV");
-        let jwt_secret = std::env::var("JWT_SECRET").expect("JWT_SECRET NOT SET IN THE .ENV");
+        let jwt_secret = std::env::var("JWT_SECRET_KEY").expect("JWT_SECRET NOT SET IN THE .ENV");
         let jwt_max_age = std::env::var("JWT_MAX_AGE").expect("JWT_MAX_AGE NOT SET IN THE .ENV");
 
         Config {

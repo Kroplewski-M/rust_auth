@@ -35,9 +35,9 @@ pub fn create_token(
 }
 
 pub fn decode_token<T: Into<String>>(token: T, secret: &[u8]) -> Result<String, HttpError> {
-    let decodingKey = &DecodingKey::from_secret(secret);
+    let decoding_key = &DecodingKey::from_secret(secret);
     let validation = &Validation::new(ALGORITHM_SET);
-    let decoded = decode::<TokenClaims>(&token.into(), decodingKey, validation);
+    let decoded = decode::<TokenClaims>(&token.into(), decoding_key, validation);
 
     match decoded {
         Ok(token) => Ok(token.claims.sub),

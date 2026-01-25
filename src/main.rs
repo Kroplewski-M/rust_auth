@@ -6,6 +6,7 @@ mod errors;
 mod handler;
 mod models;
 mod utils;
+use crate::db::DbClient;
 use actix_cors::Cors;
 use actix_web::{
     App, HttpResponse, HttpServer, Responder, get, http::header, middleware::Logger, web,
@@ -24,8 +25,6 @@ use utoipa::{
 use utoipa_rapidoc::RapiDoc;
 use utoipa_redoc::{Redoc, Servable};
 use utoipa_swagger_ui::SwaggerUi;
-
-use crate::db::DbClient;
 
 #[derive(Debug, Clone)]
 pub struct AppState {
@@ -107,6 +106,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             .app_data(web::Data::new(app_state.clone()))
             .wrap(cors)
             .wrap(Logger::default())
+            .service(handler::auth::auth_handler())
+            .service(handler::user::users_hander())
             .service(health_checker)
             .service(Redoc::with_url("/redoc", openapi.clone()))
             .service(RapiDoc::new("/api-docs/openapi.json").path("/rapidoc"))
